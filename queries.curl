@@ -1,0 +1,4 @@
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"query{links{id, url, description}}"}' http://localhost:8000/graphql/ | less | jq .
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"mutation{createLink(url: \"http://localhost:8000\", description: \"localhost\"){id, url, description}}"}' http://localhost:8000/graphql/ | less | jq .
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"query{users{id, email, password}}"}' http://localhost:8000/graphql/ | less | jq .
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"mutation{createUser(username: \"dsl\", email: \"none\", password: \"123\"){user{id, email, password}}}"}' http://localhost:8000/graphql/ | less | jq .
