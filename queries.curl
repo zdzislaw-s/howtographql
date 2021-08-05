@@ -1,4 +1,6 @@
-curl -s -X POST -H "Content-Type: application/json" -d '{"query":"query{links{id, url, description}}"}' http://localhost:8000/graphql/ | less | jq .
-curl -s -X POST -H "Content-Type: application/json" -d '{"query":"mutation{createLink(url: \"http://localhost:8000\", description: \"localhost\"){id, url, description}}"}' http://localhost:8000/graphql/ | less | jq .
-curl -s -X POST -H "Content-Type: application/json" -d '{"query":"query{users{id, email, password}}"}' http://localhost:8000/graphql/ | less | jq .
-curl -s -X POST -H "Content-Type: application/json" -d '{"query":"mutation{createUser(username: \"dsl\", email: \"none\", password: \"123\"){user{id, email, password}}}"}' http://localhost:8000/graphql/ | less | jq .
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"query{links{id, url, description}}"}' http://localhost:8000/graphql/
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"mutation{createLink(url: \"http://localhost:8000\", description: \"localhost\"){id, url, description}}"}' http://localhost:8000/graphql/
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"query{users{id, email, password}}"}' http://localhost:8000/graphql/
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"mutation{createUser(username: \"dsl\", email: \"none\", password: \"123\"){user{id, email, password}}}"}' http://localhost:8000/graphql/
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"mutation{tokenAuth(username: \"zsl\", password: \"123\"){token}}"}' http://localhost:8000/graphql/
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"mutation{verifyToken(token: \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InpzbCIsImV4cCI6MTYyODE1NDg2Niwib3JpZ19pYXQiOjE2MjgxNTQ1NjZ9.x8ecGqD7Ple39GM_YMrqnmwaoLFsXiJnB4x9tm0zsjk\"){payload}}"}' http://localhost:8000/graphql/
