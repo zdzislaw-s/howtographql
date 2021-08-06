@@ -7,7 +7,7 @@ might be helpful to whoever intends to do that tutorial.
 The commits are roughly aligned with the original chapters (with my take on
 naming and such here and there) and are best followed alongside the tutorial.
 
-Here is the full list of commits here in chronological order:
+Here is the list of commits in chronological order:
 
 [`6c12b74`](https://github.com/zdzislaw-s/howtographql/commit/6c12b74abc6ccfcaad1bcec7412ad8a422a5da8f)` Add hackernews/`  
 [`a3c193c`](https://github.com/zdzislaw-s/howtographql/commit/a3c193c60d02162a4782f0ce79f0a86b17b433e0)` Configure Graphene Django`  
