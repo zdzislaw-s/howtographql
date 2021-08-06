@@ -2,6 +2,7 @@ import graphene
 import graphql_jwt
 from graphene_django import DjangoObjectType
 from django.contrib.auth import get_user_model
+from graphql import GraphQLError
 
 from links.models import Link as LinkModel
 from links.models import Vote
@@ -35,7 +36,7 @@ class CreateLink(graphene.Mutation):
     def mutate(self, info, url, description):
         user = info.context.user
         if user.is_anonymous:
-            raise Exception("Anonymous users can't create links!")
+            raise GraphQLError("Anonymous users can't create links!")
         link = LinkModel(url=url, description=description, posted_by=user)
         link.save()
 
@@ -57,10 +58,10 @@ class CreateVote(graphene.Mutation):
     def mutate(self, info, linkId):
         user = info.context.user
         if user.is_anonymous:
-            raise Exception("You must be logged in to vote!")
+            raise GraphQLError("You must be logged in to vote!")
         link = LinkModel.objects.filter(id=linkId).first()
         if link is None:
-            raise Exception(f"The link ={linkId} is invalid.")
+            raise GraphQLError(f"The link ={linkId} is invalid.")
 
         Vote.objects.create(user=user, link=link)
 
@@ -113,7 +114,7 @@ class Query(graphene.ObjectType):
     def resolve_whoami(self, info):
         user = info.context.user
         if user.is_anonymous:
-            raise Exception("Not logged in!")
+            raise GraphQLError("Not logged in!")
         return user
 
 
