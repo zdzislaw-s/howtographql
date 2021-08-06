@@ -43,4 +43,4 @@ class CreateUser(graphene.Mutation):
 
 
 class Mutation(graphene.ObjectType):
-    create_user = CreateUser.Field()
+    createUser = CreateUser.Field()
