@@ -2,6 +2,7 @@ import graphene
 import graphql_jwt
 from graphene_django import DjangoObjectType
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from graphql import GraphQLError
 
 from links.models import Link as LinkModel
@@ -97,13 +98,18 @@ class Mutation(graphene.ObjectType):
 
 
 class Query(graphene.ObjectType):
-    links = graphene.List(Link)
+    links = graphene.List(Link, search=graphene.String())
     votes = graphene.List(Vote)
     users = graphene.List(User)
     whoami = graphene.Field(User)
 
-    def resolve_links(self, info, **kwargs):
-        return LinkModel.objects.all()
+    def resolve_links(self, info, search=None, **kwargs):
+        objects = LinkModel.objects
+        if search is None:
+            return objects.all()
+        else:
+            filter = Q(url__icontains=search) | Q(description__icontains=search)
+            return objects.filter(filter)
 
     def resolve_votes(self, info, **kwargs):
         return Vote.objects.all()

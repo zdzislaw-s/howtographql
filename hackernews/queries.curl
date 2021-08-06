@@ -9,3 +9,4 @@ curl -s -X POST -H "Content-Type: application/json" -d '{"query":"query{users{id
 curl -s -X POST -H "Content-Type: application/json" -H "Authorization: JWT `cat token`" -d '{"query":"query{whoami{username email}}"}' http://localhost:8000/graphql/
 curl -s -X POST -H "Content-Type: application/json" -d '{"query":"query{votes{user{username} link{url}}}"}' http://localhost:8000/graphql/
 curl -s -X POST -H "Content-Type: application/json" -d '{"query":"query{links{url votes{user{username}}}}"}' http://localhost:8000/graphql/
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"query{links(search: \"github\"){id, url, description}}"}' http://localhost:8000/graphql/
