@@ -3,21 +3,21 @@ import graphql_jwt
 from graphene_django import DjangoObjectType
 from django.contrib.auth import get_user_model
 
-from links.models import Link
+from links.models import Link as LinkModel
 from links.models import Vote
 
 
-class LinkType(DjangoObjectType):
+class Link(DjangoObjectType):
     class Meta:
-        model = Link
+        model = LinkModel
 
 
-class VoteType(DjangoObjectType):
+class Vote(DjangoObjectType):
     class Meta:
         model = Vote
 
 
-class UserType(DjangoObjectType):
+class User(DjangoObjectType):
     class Meta:
         model = get_user_model()
 
@@ -26,7 +26,7 @@ class CreateLink(graphene.Mutation):
     id = graphene.Int()
     url = graphene.String()
     description = graphene.String()
-    postedBy = graphene.Field(UserType)
+    postedBy = graphene.Field(User)
 
     class Arguments:
         url = graphene.String()
@@ -36,7 +36,7 @@ class CreateLink(graphene.Mutation):
         user = info.context.user
         if user.is_anonymous:
             raise Exception("Anonymous users can't create links!")
-        link = Link(url=url, description=description, posted_by=user)
+        link = LinkModel(url=url, description=description, posted_by=user)
         link.save()
 
         return CreateLink(
@@ -48,8 +48,8 @@ class CreateLink(graphene.Mutation):
 
 
 class CreateVote(graphene.Mutation):
-    user = graphene.Field(UserType)
-    link = graphene.Field(LinkType)
+    user = graphene.Field(User)
+    link = graphene.Field(Link)
 
     class Arguments:
         linkId = graphene.Int()
@@ -58,7 +58,7 @@ class CreateVote(graphene.Mutation):
         user = info.context.user
         if user.is_anonymous:
             raise Exception("You must be logged in to vote!")
-        link = Link.objects.filter(id=linkId).first()
+        link = LinkModel.objects.filter(id=linkId).first()
         if link is None:
             raise Exception(f"The link ={linkId} is invalid.")
 
@@ -68,7 +68,7 @@ class CreateVote(graphene.Mutation):
 
 
 class CreateUser(graphene.Mutation):
-    user = graphene.Field(UserType)
+    user = graphene.Field(User)
 
     class Arguments:
         username = graphene.String(required=True)
@@ -96,13 +96,13 @@ class Mutation(graphene.ObjectType):
 
 
 class Query(graphene.ObjectType):
-    links = graphene.List(LinkType)
-    votes = graphene.List(VoteType)
-    users = graphene.List(UserType)
-    whoami = graphene.Field(UserType)
+    links = graphene.List(Link)
+    votes = graphene.List(Vote)
+    users = graphene.List(User)
+    whoami = graphene.Field(User)
 
     def resolve_links(self, info, **kwargs):
-        return Link.objects.all()
+        return LinkModel.objects.all()
 
     def resolve_votes(self, info, **kwargs):
         return Vote.objects.all()
