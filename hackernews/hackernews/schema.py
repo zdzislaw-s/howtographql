@@ -12,6 +12,11 @@ class LinkType(DjangoObjectType):
         model = Link
 
 
+class VoteType(DjangoObjectType):
+    class Meta:
+        model = Vote
+
+
 class UserType(DjangoObjectType):
     class Meta:
         model = get_user_model()
@@ -92,11 +97,15 @@ class Mutation(graphene.ObjectType):
 
 class Query(graphene.ObjectType):
     links = graphene.List(LinkType)
+    votes = graphene.List(VoteType)
     users = graphene.List(UserType)
     whoami = graphene.Field(UserType)
 
     def resolve_links(self, info, **kwargs):
         return Link.objects.all()
+
+    def resolve_votes(self, info, **kwargs):
+        return Vote.objects.all()
 
     def resolve_users(self, info):
         return get_user_model().objects.all()
