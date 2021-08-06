@@ -6,7 +6,7 @@ from django.db.models import Q
 from graphql import GraphQLError
 
 from links.models import Link as LinkModel
-from links.models import Vote
+from links.models import Vote as VoteModel
 
 
 class Link(DjangoObjectType):
@@ -16,7 +16,7 @@ class Link(DjangoObjectType):
 
 class Vote(DjangoObjectType):
     class Meta:
-        model = Vote
+        model = VoteModel
 
 
 class User(DjangoObjectType):
@@ -64,7 +64,7 @@ class CreateVote(graphene.Mutation):
         if link is None:
             raise GraphQLError(f"The link ={linkId} is invalid.")
 
-        Vote.objects.create(user=user, link=link)
+        VoteModel.objects.create(user=user, link=link)
 
         return CreateVote(user=user, link=link)
 
@@ -123,7 +123,7 @@ class Query(graphene.ObjectType):
         return qs
 
     def resolve_votes(self, info, **kwargs):
-        return Vote.objects.all()
+        return VoteModel.objects.all()
 
     def resolve_users(self, info):
         return get_user_model().objects.all()

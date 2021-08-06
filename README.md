@@ -27,4 +27,5 @@ Here is the full list of commits here in chronological order:
 [`8b611ca`](https://github.com/zdzislaw-s/howtographql/commit/8b611ca0b4830f0ce7f1dafac5c3970e7a943149)` Rename type names in schema (e.g. s/VoteType/Vote/)`  
 [`1a5db7e`](https://github.com/zdzislaw-s/howtographql/commit/1a5db7e74a8ecb70ae3930e2b74b7352e89dabca)` Replace Exception with GraphQLError`  
 [`f9a4d26`](https://github.com/zdzislaw-s/howtographql/commit/f9a4d269abd92fe9bd389fc640c34edfdad15540)` Filter Links`  
-[`baaf772`](https://github.com/zdzislaw-s/howtographql/commit/baaf7723cd14321a16b67310676349eb5d904a4f)` Paginate Links`  
+[`8d8a278`](https://github.com/zdzislaw-s/howtographql/commit/8d8a2788d5752bf9e842a70d9da775e5aac2dc54)` Paginate Links`  
+[`662d31f`](https://github.com/zdzislaw-s/howtographql/commit/662d31fd237320edc1bde7fd9c7499857008a8cd)` Fix missed s/Vote/VoteModel/`  
