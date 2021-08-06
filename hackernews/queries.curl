@@ -1,7 +1,9 @@
-curl -s -X POST -H "Content-Type: application/json" -d '{"query":"query{links{id, url, description}}"}' http://localhost:8000/graphql/
-curl -s -X POST -H "Content-Type: application/json" -d '{"query":"mutation{createLink(url: \"http://localhost:8000\", description: \"localhost\"){id, url, description}}"}' http://localhost:8000/graphql/
-curl -s -X POST -H "Content-Type: application/json" -d '{"query":"query{users{id, email, password}}"}' http://localhost:8000/graphql/
-curl -s -X POST -H "Content-Type: application/json" -d '{"query":"mutation{createUser(username: \"dsl\", email: \"none\", password: \"123\"){user{id, email, password}}}"}' http://localhost:8000/graphql/
+curl -s -X POST -H "Content-Type: application/json" -H "Authorization: JWT `cat token`" -d '{"query":"mutation{createLink(url: \"http://localhost:8000\", description: \"localhost\"){id, url, description}}"}' http://localhost:8000/graphql/
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"mutation{createUser(username: \"emu\", email: \"none\", password: \"123\"){user{id, email, password}}}"}' http://localhost:8000/graphql/
 curl -s -X POST -H "Content-Type: application/json" -d '{"query":"mutation{obtainToken(username: \"zsl\", password: \"123\"){token}}"}' http://localhost:8000/graphql/
-curl -s -X POST -H "Content-Type: application/json" -d '{"query":"mutation{verifyToken(token: \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InpzbCIsImV4cCI6MTYyODE1NDg2Niwib3JpZ19pYXQiOjE2MjgxNTQ1NjZ9.x8ecGqD7Ple39GM_YMrqnmwaoLFsXiJnB4x9tm0zsjk\"){payload}}"}' http://localhost:8000/graphql/
-curl -s -X POST -H "Content-Type: application/json" -H "Authorization: JWT `cat token`" -d '{"query":"query{me{username email}}"}' http://localhost:8000/graphql/
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"mutation{verifyToken(token: \"'`cat token`'\"){payload}}"}' http://localhost:8000/graphql/
+curl -s -X POST -H "Content-Type: application/json" -H "Authorization: JWT `cat token`" -d '{"query":"mutation{createVote(linkId:1){user{username} link{url}}}"}' http://localhost:8000/graphql/ | jq .
+
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"query{links{id, url, description}}"}' http://localhost:8000/graphql/
+curl -s -X POST -H "Content-Type: application/json" -d '{"query":"query{users{id, email, password}}"}' http://localhost:8000/graphql/
+curl -s -X POST -H "Content-Type: application/json" -H "Authorization: JWT `cat token`" -d '{"query":"query{whoami{username email}}"}' http://localhost:8000/graphql/
