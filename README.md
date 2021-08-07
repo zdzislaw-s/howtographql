@@ -28,11 +28,12 @@ Here is the list of commits in chronological order:
 [`1a5db7e`](https://github.com/zdzislaw-s/howtographql/commit/1a5db7e74a8ecb70ae3930e2b74b7352e89dabca)` Replace Exception with GraphQLError`  
 [`f9a4d26`](https://github.com/zdzislaw-s/howtographql/commit/f9a4d269abd92fe9bd389fc640c34edfdad15540)` Filter Links`  
 [`8d8a278`](https://github.com/zdzislaw-s/howtographql/commit/8d8a2788d5752bf9e842a70d9da775e5aac2dc54)` Paginate Links`  
-[`662d31f`](https://github.com/zdzislaw-s/howtographql/commit/662d31fd237320edc1bde7fd9c7499857008a8cd)` Fix missed s/Vote/VoteModel/`  
+[`c447ceb`](https://github.com/zdzislaw-s/howtographql/commit/c447cebf863d750f3c2fb19370d241a9114626fe)` Fix missed s/Vote/VoteModel/`  
+[`f5eb9bc`](https://github.com/zdzislaw-s/howtographql/commit/f5eb9bc71c324e94c98d8c1b82e15990638855be)` Add schema.graphql`  
 
 ## schema.graphql
 
-The [`schema.graphql`](hackernews/schema.graphql) file was created with the following procedure:
+The [`hackernews/schema.graphql`](hackernews/schema.graphql) file was created with the following code:
 
 ```python
 >>> import hackernews.wsgi
