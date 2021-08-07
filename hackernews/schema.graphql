@@ -1,0 +1,83 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type CreateLink {
+  id: Int
+  url: String
+  description: String
+  postedBy: User
+}
+
+type CreateUser {
+  user: User
+}
+
+type CreateVote {
+  user: User
+  link: Link
+}
+
+scalar DateTime
+
+scalar GenericScalar
+
+type Link {
+  id: ID!
+  url: String!
+  description: String!
+  postedBy: User
+  votes: [Vote]
+}
+
+type Mutation {
+  obtainToken(username: String!, password: String!): ObtainJSONWebToken
+  verifyToken(token: String): Verify
+  refreshToken(token: String): Refresh
+  createLink(description: String, url: String): CreateLink
+  createVote(linkId: Int): CreateVote
+  createUser(email: String!, password: String!, username: String!): CreateUser
+}
+
+type ObtainJSONWebToken {
+  token: String
+}
+
+type Query {
+  links(search: String, first: Int, skip: Int): [Link]
+  votes: [Vote]
+  users: [User]
+  whoami: User
+}
+
+type Refresh {
+  token: String
+  payload: GenericScalar
+}
+
+type User {
+  id: ID!
+  password: String!
+  lastLogin: DateTime
+  isSuperuser: Boolean!
+  username: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  isStaff: Boolean!
+  isActive: Boolean!
+  dateJoined: DateTime!
+  linkSet: [Link]
+  voteSet: [Vote]
+}
+
+type Verify {
+  payload: GenericScalar
+}
+
+type Vote {
+  id: ID!
+  user: User!
+  link: Link!
+}

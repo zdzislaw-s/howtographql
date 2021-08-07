@@ -29,3 +29,14 @@ Here is the list of commits in chronological order:
 [`f9a4d26`](https://github.com/zdzislaw-s/howtographql/commit/f9a4d269abd92fe9bd389fc640c34edfdad15540)` Filter Links`  
 [`8d8a278`](https://github.com/zdzislaw-s/howtographql/commit/8d8a2788d5752bf9e842a70d9da775e5aac2dc54)` Paginate Links`  
 [`662d31f`](https://github.com/zdzislaw-s/howtographql/commit/662d31fd237320edc1bde7fd9c7499857008a8cd)` Fix missed s/Vote/VoteModel/`  
+
+## schema.graphql
+
+The [`schema.graphql`](hackernews/schema.graphql) file was created with the following procedure:
+
+```python
+>>> import hackernews.wsgi
+>>> from hackernews.schema import schema
+>>> with open("schema.graphql", "w") as fo:
+...   fo.write(str(schema))
+```

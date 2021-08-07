@@ -1,9 +1,12 @@
+from graphql import GraphQLError
 import graphene
-import graphql_jwt
+
+from graphql_jwt import ObtainJSONWebToken as ObtainToken
+from graphql_jwt import Verify as VerifyToken
+from graphql_jwt import Refresh as RefreshToken
 from graphene_django import DjangoObjectType
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from graphql import GraphQLError
 
 from links.models import Link as LinkModel
 from links.models import Vote as VoteModel
@@ -34,7 +37,7 @@ class CreateLink(graphene.Mutation):
         url = graphene.String()
         description = graphene.String()
 
-    def mutate(self, info, url, description):
+    def mutate(parent, info, url, description):
         user = info.context.user
         if user.is_anonymous:
             raise GraphQLError("Anonymous users can't create links!")
@@ -56,7 +59,7 @@ class CreateVote(graphene.Mutation):
     class Arguments:
         linkId = graphene.Int()
 
-    def mutate(self, info, linkId):
+    def mutate(parent, info, linkId):
         user = info.context.user
         if user.is_anonymous:
             raise GraphQLError("You must be logged in to vote!")
@@ -77,7 +80,7 @@ class CreateUser(graphene.Mutation):
         password = graphene.String(required=True)
         email = graphene.String(required=True)
 
-    def mutate(self, info, username, password, email):
+    def mutate(parent, info, username, password, email):
         user = get_user_model()(
             username=username,
             email=email,
@@ -89,9 +92,9 @@ class CreateUser(graphene.Mutation):
 
 
 class Mutation(graphene.ObjectType):
-    obtainToken = graphql_jwt.ObtainJSONWebToken.Field()
-    verifyToken = graphql_jwt.Verify.Field()
-    refreshToken = graphql_jwt.Refresh.Field()
+    obtainToken = ObtainToken.Field()
+    verifyToken = VerifyToken.Field()
+    refreshToken = RefreshToken.Field()
     createLink = CreateLink.Field()
     createVote = CreateVote.Field()
     createUser = CreateUser.Field()
@@ -105,7 +108,7 @@ class Query(graphene.ObjectType):
     users = graphene.List(User)
     whoami = graphene.Field(User)
 
-    def resolve_links(self, info, search=None, first=None, skip=None, **kwargs):
+    def resolve_links(parent, info, search=None, first=None, skip=None, **kwargs):
         objects = LinkModel.objects
         qs = []
         if search is None:
@@ -122,13 +125,13 @@ class Query(graphene.ObjectType):
 
         return qs
 
-    def resolve_votes(self, info, **kwargs):
+    def resolve_votes(parent, info, **kwargs):
         return VoteModel.objects.all()
 
-    def resolve_users(self, info):
+    def resolve_users(parent, info):
         return get_user_model().objects.all()
 
-    def resolve_whoami(self, info):
+    def resolve_whoami(parent, info):
         user = info.context.user
         if user.is_anonymous:
             raise GraphQLError("Not logged in!")
