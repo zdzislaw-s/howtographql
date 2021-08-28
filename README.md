@@ -4,6 +4,9 @@ Commits in this repository record my progress in going through [graphql-python
 Tutorial](https://www.howtographql.com/graphql-python/0-introduction/) and
 might be helpful to whoever intends to do that tutorial.
 
+There is a commit that includes Subscriptions, which unfortunately are not
+covered in the tutorial.
+
 The commits are roughly aligned with the original chapters (with my take on
 naming and such here and there) and are best followed alongside the tutorial.
 

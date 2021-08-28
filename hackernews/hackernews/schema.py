@@ -11,6 +11,11 @@ from django.db.models import Q
 from links.models import Link as LinkModel
 from links.models import Vote as VoteModel
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
+channel_layer = get_channel_layer()
+
 
 class Link(DjangoObjectType):
     class Meta:
@@ -68,8 +73,10 @@ class CreateVote(graphene.Mutation):
             raise GraphQLError(f"The link ={linkId} is invalid.")
 
         VoteModel.objects.create(user=user, link=link)
-
-        return CreateVote(user=user, link=link)
+        
+        rv = CreateVote(user=user, link=link)
+        async_to_sync(channel_layer.group_send)("votes", {"data": rv})
+        return rv
 
 
 class CreateUser(graphene.Mutation):
@@ -91,6 +98,17 @@ class CreateUser(graphene.Mutation):
         return CreateUser(user=user)
 
 
+class SendMessage(graphene.Mutation):
+    class Arguments:
+        message = graphene.String()
+
+    reply = graphene.String()
+
+    def mutate(self, info, message):
+        async_to_sync(channel_layer.group_send)("messages", {"data": message})
+        return SendMessage(reply=message)
+
+
 class Mutation(graphene.ObjectType):
     obtainToken = ObtainToken.Field()
     verifyToken = VerifyToken.Field()
@@ -98,6 +116,7 @@ class Mutation(graphene.ObjectType):
     createLink = CreateLink.Field()
     createVote = CreateVote.Field()
     createUser = CreateUser.Field()
+    sendMessage = SendMessage.Field()
 
 
 class Query(graphene.ObjectType):
@@ -138,4 +157,29 @@ class Query(graphene.ObjectType):
         return user
 
 
-schema = graphene.Schema(query=Query, mutation=Mutation)
+class Subscription(graphene.ObjectType):
+    message = graphene.String()
+    vote = graphene.Field(CreateVote)
+
+    async def resolve_message(parent, info):
+        channelName = await channel_layer.new_channel()
+        await channel_layer.group_add("messages", channelName)
+        try:
+            while True:
+                message = await channel_layer.receive(channelName)
+                yield message["data"]
+        finally:
+            await channel_layer.group_discard("messages", channelName)
+
+    async def resolve_vote(parent, info):
+        channelName = await channel_layer.new_channel()
+        await channel_layer.group_add("votes", channelName)
+        try:
+            while True:
+                vote = await channel_layer.receive(channelName)
+                yield vote["data"]
+        finally:
+            await channel_layer.group_discard("messages", channelName)
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation, subscription=Subscription)
