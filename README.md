@@ -33,6 +33,7 @@ Here is the list of commits in chronological order:
 [`8d8a278`](https://github.com/zdzislaw-s/howtographql/commit/8d8a2788d5752bf9e842a70d9da775e5aac2dc54)` Paginate Links`  
 [`c447ceb`](https://github.com/zdzislaw-s/howtographql/commit/c447cebf863d750f3c2fb19370d241a9114626fe)` Fix missed s/Vote/VoteModel/`  
 [`f5eb9bc`](https://github.com/zdzislaw-s/howtographql/commit/f5eb9bc71c324e94c98d8c1b82e15990638855be)` Add schema.graphql`  
+[`5771ecc`](https://github.com/zdzislaw-s/howtographql/commit/5771ecc87228f8f55a3ce57e7499426dfea1c06b)` Add subscriptions`
 
 ## schema.graphql
 
