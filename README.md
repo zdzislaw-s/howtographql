@@ -1,16 +1,16 @@
 # howtographql
 
+New line
+
 Commits in this repository record my progress in going through [graphql-python
 Tutorial](https://www.howtographql.com/graphql-python/0-introduction/) and
 might be helpful to whoever intends to do that tutorial.
 
-There is a commit that includes Subscriptions, which unfortunately are not
+Modif: There is a commit that includes Subscriptions, which unfortunately are not
 covered in the tutorial.
 
 The commits are roughly aligned with the original chapters (with my take on
 naming and such here and there) and are best followed alongside the tutorial.
-
-Here is the list of commits in chronological order:
 
 [`6c12b74`](https://github.com/zdzislaw-s/howtographql/commit/6c12b74abc6ccfcaad1bcec7412ad8a422a5da8f)` Add hackernews/`  
 [`a3c193c`](https://github.com/zdzislaw-s/howtographql/commit/a3c193c60d02162a4782f0ce79f0a86b17b433e0)` Configure Graphene Django`  
